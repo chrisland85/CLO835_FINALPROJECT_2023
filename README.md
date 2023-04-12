@@ -8,3 +8,4 @@ Prequisites:
 Images are pushed to a repo
 EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
 Steps:
+# 1
