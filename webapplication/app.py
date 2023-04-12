@@ -9,10 +9,11 @@ app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
-DBPWD = os.environ.get("DBPWD") or "password"
+DBPWD = os.environ.get("DBPWD") or "WinteR##2020"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
-DBPORT = int(os.environ.get("DBPORT"))
+#DBPORT = int(os.environ.get("DBPORT"))
+DBPORT = 3306 
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -25,6 +26,8 @@ db_conn = connections.Connection(
 )
 output = {}
 table = 'employee';
+
+imageurl = "https://clo835-finalproject-2023.s3.amazonaws.com/ilovecats.jpg";
 
 # Define the supported color codes
 color_codes = {
@@ -47,11 +50,11 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    return render_template('addemp.html', imageurl=imageurl)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', color=color_codes[COLOR])
+    return render_template('about.html', imageurl=imageurl)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -75,11 +78,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addempoutput.html', name=emp_name, color=color_codes[COLOR])
+    return render_template('addempoutput.html', name=emp_name, imageurl=imageurl)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html", color=color_codes[COLOR])
+    return render_template("getemp.html",imageurl=imageurl)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -108,7 +111,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], imageurl=imageurl)
 
 if __name__ == '__main__':
     
