@@ -5,7 +5,7 @@ Group final project for winter 2023 graduating class.
 Deploy Python Application with Persistent MySql Database on EKS (using Storage Class (SC), Persistent Volume (PV) and Persistent Volume Claim (PVC))
 
 Project Prequisites: 
-Docker Images are pushed to the ecr repository
+Docker Images are pushed to the ecr repository by the workflow in gitaction
 EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
 Steps:
 # Using Storage class and PVC
