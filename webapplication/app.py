@@ -1,6 +1,7 @@
+import os
 from flask import Flask, render_template, request
 from pymysql import connections
-import os
+import boto3
 import random
 import argparse
 
@@ -14,6 +15,16 @@ DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 #DBPORT = int(os.environ.get("DBPORT"))
 DBPORT = 3306 
+
+
+# Connect to the S3 bucket
+s3 = boto3.resource('s3')
+bucket_name = 'clo835-finalproject-2023'
+bucket = s3.Bucket(bucket_name)
+image_key = 'ilovecats.jpg'
+s3_url = f'https://{bucket_name}.s3.amazonaws.com/{image_key}'
+imageurl = f'https://{bucket_name}.s3.amazonaws.com/{image_key}'
+
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -50,10 +61,13 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    imageurl = "https://clo835-finalproject-2023.s3.amazonaws.com/ilovecats.jpg";
+    s3_url = "s3://clo835-finalproject-2023/ilovecats.jpg"
     return render_template('addemp.html', imageurl=imageurl)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
+    imageurl = "https://clo835-finalproject-2023.s3.amazonaws.com/ilovecats.jpg";
     return render_template('about.html', imageurl=imageurl)
     
 @app.route("/addemp", methods=['POST'])
