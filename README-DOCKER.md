@@ -15,10 +15,10 @@ sudo python3 app.py
 ```docker build -t my_app -f Dockerfile . ```
 
 ### Building the bridge network
-```docker network create -d bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 assignment1-network ```
+```docker network create -d bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 grp1-network ```
 
 ### Running mysql
-```docker run -d -e MYSQL_ROOT_PASSWORD=pw  my_db```
+```docker run -d -e MYSQL_ROOT_PASSWORD=pw  --network grp1-network my_db```
 
 
 ### Get the IP of the database and export it as DBHOST variable
@@ -32,7 +32,7 @@ export DBPORT=3306
 ```
 ### Example when running DB runs as a docker container and app is running locally
 ```
-export DBHOST=172.17.0.2
+export DBHOST=182.18.0.2
 export DBPORT=3306
 ```
 ```
