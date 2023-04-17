@@ -19,7 +19,7 @@ spec:
         - name: app
           image: 448870721230.dkr.ecr.us-east-1.amazonaws.com/webapp_repo:v0.211
           ports:
-            - containerPort: 8080
+            - containerPort: 81
           env:
             - name: DBPWD
               valueFrom:
@@ -36,3 +36,11 @@ spec:
                 configMapKeyRef:
                   name: app-config
                   key: DB_HOST
+          volumeMounts:
+            - name: images
+              mountPath: /usr/share/nginx/html/images
+      volumes:
+        - name: images
+          configMap:
+            name: app-config
+      restartPolicy: Always
