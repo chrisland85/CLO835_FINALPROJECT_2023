@@ -1,11 +1,9 @@
 # CLO835_FINALPROJECT_2023
 Group final project for winter 2023 graduating class.
 
-Project Prequisites: 
-1. Docker Images are pushed to the ecr repository by the workflow in gitaction
-2. EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
+Tasks
+EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
 
-1. 
 # Install the required MySQL package
 
 sudo apt-get update -y
@@ -48,27 +46,23 @@ export DATABASE=employees
 export DBPWD=pw
 ```
 ### Running the application, make sure it is visible in the browser
-```docker run -p 8080:81  -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e  DBUSER=$DBUSER -e DBPWD=$DBPWD --network grp1-network my_app```
-__________________________________________________________________________________________________________________________________________________________________
+```docker run -p 8080:81  -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e  DBUSER=$DBUSER -e DBPWD=$DBPWD --network grp1-network  my_app```
 
+________________________________________________________________________________________________________________________________________________________________
 
-2. EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
-
-# kubernetes Tasks Overview
+# Main Tasks Overview
 Deploy Python Application with Persistent MySql Database on EKS (using Storage Class (SC), Persistent Volume (PV) and Persistent Volume Claim (PVC))
 
-Tasks
-EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
 Steps:
 # Using Storage class and PVC
 
-#Confirm that the cluster with 2 worker nodes is running
+#To Confirm that the cluster with 2 worker nodes is running
 k get nodes
 #Create base64 encoded password
 echo -n 'admin' | base64
 #Create storage class
 k apply -f storage_class.yaml -n grp1
-#Create the Namspace
+#create namespace
 k create ns grp1
 #Create the secrets
 k apply -f secret.yaml -n grp1                                                                                                                                                                                   
@@ -91,7 +85,7 @@ k get all -n grp1
 #get the external IP (URL) of the load balancer.
 #Paste the url in a browser and the exposed port.
 #Add some data into the database
-#verify the data is in the mysql data base
+#verify the data is in the mysql database
 k exec -it pod/db-deployment-49bccdz45de-vd675 -n grp1 -- /bin/bash
 mysql -p
 admin
