@@ -1,11 +1,63 @@
 # CLO835_FINALPROJECT_2023
 Group final project for winter 2023 graduating class.
 
-# Tasks Overview
+Project Prequisites: 
+1. Docker Images are pushed to the ecr repository by the workflow in gitaction
+2. EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
+
+1. 
+# Install the required MySQL package
+
+sudo apt-get update -y
+sudo apt-get install mysql-client -y
+
+# Running application locally
+pip3 install -r requirements.txt
+sudo python3 app.py
+# Building and running 2 tier web application locally
+### Building mysql docker image 
+```docker build -t my_db -f Dockerfile . ```
+
+### Building application docker image 
+```docker build -t my_app -f Dockerfile . ```
+
+### Building the bridge network
+```docker network create -d bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 grp1-network ```
+
+### Running mysql
+```docker run -d -e MYSQL_ROOT_PASSWORD=pw  --network grp1-network my_db```
+
+
+### Get the IP of the database and export it as DBHOST variable
+```docker inspect <container_id>```
+
+
+### Example when running DB runs as a docker container and app is running locally
+```
+export DBHOST=182.18.0.2
+export DBPORT=3306
+```
+### Example when running DB runs as a docker container and app is running locally
+```
+export DBHOST=182.18.0.2
+export DBPORT=3306
+```
+```
+export DBUSER=root
+export DATABASE=employees
+export DBPWD=pw
+```
+### Running the application, make sure it is visible in the browser
+```docker run -p 8080:81  -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e  DBUSER=$DBUSER -e DBPWD=$DBPWD --network grp1-network my_app```
+__________________________________________________________________________________________________________________________________________________________________
+
+
+2. EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
+
+# kubernetes Tasks Overview
 Deploy Python Application with Persistent MySql Database on EKS (using Storage Class (SC), Persistent Volume (PV) and Persistent Volume Claim (PVC))
 
-Project Prequisites: 
-Docker Images are pushed to the ecr repository by the workflow in gitaction
+Tasks
 EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
 Steps:
 # Using Storage class and PVC
@@ -15,19 +67,19 @@ k get nodes
 #Create base64 encoded password
 echo -n 'admin' | base64
 #Create storage class
-k create -f storage_class.yaml -n grp1
+k apply -f storage_class.yaml -n grp1
 #Create the Namspace
 k create ns grp1
 #Create the secrets
-k create -f secret.yaml -n grp1                                                                                                                                                                                   
+k apply -f secret.yaml -n grp1                                                                                                                                                                                   
 #Create configmap
-k create -f config-map.yaml -n grp1                                                                                                                                                                                
+k apply -f config-map.yaml -n grp1                                                                                                                                                                                
 #Create PVC
-k create -f pvc.yaml -n grp1                                                                                                                                                                                       
+k apply -f pvc.yaml -n grp1                                                                                                                                                                                       
 #Create the deployment of the Database
 k apply -f db-deployment.yaml -n grp1
 #Create deployment of the cluster IP service for the Database
-k create -f db-service.yaml -n grp1
+k apply -f db-service.yaml -n grp1
 #Verify that the database and service has been created
 k get all -n grp1
 #Create the app deployment
