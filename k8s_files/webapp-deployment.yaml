@@ -1,3 +1,7 @@
+#Deploy change the app color using the secret reference
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: app-deployment
   labels:
     app: employees

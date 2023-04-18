@@ -1,9 +1,10 @@
 # CLO835_FINALPROJECT_2023
 Group final project for winter 2023 graduating class.
 
-Prequisite Tasks
-EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
+Project Prequisites Tasks: 
 
+Docker Images are pushed to the ecr repository by the workflow in gitaction
+EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
 I created s3 bucket and uploaded the images and copy the presigned URL
 I also created ecr using the terrafom code
 
