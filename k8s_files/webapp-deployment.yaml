@@ -1,12 +1,8 @@
-#Deploy change the app color using the secret reference
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: app-deployment
   labels:
     app: employees
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: employees
@@ -17,7 +13,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: 448870721230.dkr.ecr.us-east-1.amazonaws.com/webapp_repo:v0.211
+          image: 718227961166.dkr.ecr.us-east-1.amazonaws.com/webapp_repo:v0.211
           ports:
             - containerPort: 81
           env:
@@ -36,11 +32,8 @@ spec:
                 configMapKeyRef:
                   name: app-config
                   key: DB_HOST
-          volumeMounts:
-            - name: images
-              mountPath: /usr/share/nginx/html/images
-      volumes:
-        - name: images
-          configMap:
-            name: app-config
-      restartPolicy: Always
+            - name: BackgroundImageLocation
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: background_image_location

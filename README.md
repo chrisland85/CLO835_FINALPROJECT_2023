@@ -1,10 +1,11 @@
 # CLO835_FINALPROJECT_2023
 Group final project for winter 2023 graduating class.
 
-
-Project Prequisites: 
-Docker Images are pushed to the ecr repository by the workflow in gitaction
+Prequisite Tasks
 EKS Cluster with 2 Worker Nodes is Deployed (eks cluster manifest (eks_config) is also in the repository)
+
+I created s3 bucket and uploaded the images and copy the presigned URL
+I also created ecr using the terrafom code
 
 # Install the required MySQL package
 
@@ -55,7 +56,6 @@ ________________________________________________________________________________
 # Main Tasks Overview
 Deploy Python Application with Persistent MySql Database on EKS (using Storage Class (SC), Persistent Volume (PV) and Persistent Volume Claim (PVC))
 
-
 Steps:
 # Using Storage class and PVC
 
@@ -65,10 +65,10 @@ k get nodes
 echo -n 'admin' | base64
 #Create storage class
 k apply -f storage_class.yaml -n grp1
-#Create the Namespace
+#create namespace
 k create ns grp1
 #Create the secrets
-k create -f secret.yaml -n grp1                                                                                                                                                                                   
+k apply -f secret.yaml -n grp1                                                                                                                                                                                   
 #Create configmap
 k apply -f config-map.yaml -n grp1                                                                                                                                                                                
 #Create PVC
@@ -76,7 +76,7 @@ k apply -f pvc.yaml -n grp1
 #Create the deployment of the Database
 k apply -f db-deployment.yaml -n grp1
 #Create deployment of the cluster IP service for the Database
-k create -f db-service.yaml -n grp1
+k apply -f db-service.yaml -n grp1
 #Verify that the database and service has been created
 k get all -n grp1
 #Create the app deployment
